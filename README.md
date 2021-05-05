@@ -92,6 +92,14 @@ To enable this config user need to make the _isIgnore_ as false
 
 In valueupdate JSON path values will update with the given value
 
+**Run**
+After changes of the config file
+Goto (Runner.java) and Run the file
+ src/main/java/com/api/base/Runner.java
+ 
+ **Output**
+ Results will generates as (output.csv) file under
+ src/main/resources/
 
 **Limitations**
 
