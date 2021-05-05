@@ -1,0 +1,233 @@
+{
+  "isPreRequest": true,
+  "preSendJson":{
+    "jsonPre":["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+    "preRequestType":"POST",
+    "preContentType": "JSON",
+    "preRequestUrl":"http://localhost:3030/api/test",
+    "preHeaders":[ {"header": "Abc", "value": "test"}, {"header": "PQR", "value": "43534"}]
+  },
+  "jsonMain":{
+    "name":"John",
+    "tread": null,
+    "age":67,
+    "time":"2021",
+    "vType":"yes",
+    "cars":{
+      "car1":"Ford",
+      "car2":{
+        "import":{
+          "sub":1,
+          "fact":"OK",
+          "qa":"Checked"
+        },
+        "tax":"yes",
+        "model":"toyota"
+      },
+      "car3":"Fiat"
+    },
+    "lastOverScore":[
+      4,
+      1,
+      6,
+      6,
+      2,
+      1
+    ],
+    "letterSet":[
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "employees":[
+      {
+        "name":"Ram",
+        "email":"ram@gmail.com",
+        "age":23
+      },
+      {
+        "name":"Shyam",
+        "email":"shyam23@gmail.com",
+        "age":28
+      },
+      {
+        "name":"John",
+        "email":"john@gmail.com",
+        "age":33
+      },
+      {
+        "name":"Bob",
+        "email":"bob32@gmail.com",
+        "age":41
+      }
+    ]
+  },
+  "mainRequestType":"POST",
+  "mainContentType": "JSON",
+  "mainRequestUrl":"http://localhost:3030/temptry/api/test",
+  "mainHeaders":[ {"header": "Main", "value": "testMain"}, {"header": "MnPQR", "value": "Mn43534"}],
+  "setFromPreResponse":[{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true},{"pathOrName": "event.march.fstWeek","isFromPreHeader": false, "updateKeyPath": "cars.car2.import.qa", "isToMainHeader": false},{"pathOrName": "event.jan","isFromPreHeader": false, "updateKeyPath": "cars.car2.model", "isToMainHeader": false}],
+  "constructJsonForEachField": ["REMOVE_FIELD", "EMPTY_CHECK", "NULL_CHECK"],
+  "modifyJson":[
+    {
+      "fields":[
+        "age", "vType"
+      ],
+      "isIgnore": false,
+      "modifyType": "NULL_CHECK",
+      "statusCode":400,
+      "responsePayLoad":"{\n    \"task\": \"Task 51\",\n    \"category\": \"R&D\",\n    \"status\": \"Completed\",\n    \"event\": {\n        \"jan\": \"personal\",\n        \"feb\": \"trip\",\n        \"march\": {\n            \"fstWeek\": \"sports\",\n            \"secWeek\": \"helper\"\n        }\n    },\n    \"createdDate\": \"2019-07-11T04:06:44.110Z\"\n}",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "age",
+        "time"
+      ],
+      "isIgnore": true,
+      "modifyType": "NULL_CHECK",
+      "statusCode":400,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "name"
+      ],
+      "isIgnore": true,
+      "modifyType": "ONLY_USE",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "cars.car2.import.fact"
+      ],
+      "isIgnore": false,
+      "modifyType": "ONLY_USE",
+      "statusCode":400,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "age",
+        "time"
+      ],
+      "isIgnore": false,
+      "modifyType": "ONLY_USE",
+      "statusCode":400,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "name"
+      ],
+      "isIgnore": false,
+      "modifyType": "REMOVE_FIELD",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "age"
+      ],
+      "isIgnore": false,
+      "modifyType": "REMOVE_FIELD",
+      "statusCode":400,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "fields":[
+        "age",
+        "time"
+      ],
+      "isIgnore": false,
+      "modifyType": "REMOVE_FIELD",
+      "statusCode":200,
+      "responsePayLoad":"{\n    \"task\": \"Task 51\",\n    \"category\": \"R&D\",\n    \"status\": \"Completed\",\n    \"event\": {\n        \"jan\": \"personal\",\n        \"feb\": \"trip\",\n        \"march\": {\n            \"fstWeek\": \"sports\",\n            \"secWeek\": \"helper\"\n        }\n    },\n    \"createdDate\": \"2019-07-11T04:06:44.110Z\"\n}",
+      "isStrictCompare":true
+    },
+    {
+      "fields":[
+        "cars.car2.import.fact"
+      ],
+      "isIgnore": false,
+      "modifyType": "NULL_CHECK",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    }
+  ],
+  "lengthCheck":[
+    {
+      "isIgnore": true,
+      "key":"cars.car2.import.fact",
+      "length":12,
+      "type":"numNChars",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "isIgnore": false,
+      "key":"cars.car2.import.fact",
+      "length":12,
+      "type":"charOnly",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    },
+    {
+      "isIgnore": false,
+      "key":"employees[0].age",
+      "length":12,
+      "type":"numOnly",
+      "statusCode":200,
+      "responsePayLoad":"",
+      "isStrictCompare":false
+    }
+  ],
+  "valueUpdate":[
+        {
+          "isIgnore": false,
+          "statusCode":200,
+          "expectedPayload":"",
+          "isStrictCompare":false,
+          "fieldSet":[
+            {
+              "field":"employees[0].age",
+              "value":12
+            },
+            {
+              "field":"employees[0].name",
+              "value":"testAAAA"
+            }
+          ]
+        },
+        {
+          "isIgnore": false,
+          "statusCode":200,
+          "expectedPayload":"",
+          "isStrictCompare":false,
+          "fieldSet":[
+            {
+              "field":"age",
+              "value":8
+            },
+            {
+              "field":"name",
+              "value":"FirstName"
+            }
+          ]
+        }
+  ],
+  "ignoreHeaders":[
+
+  ]
+}
