@@ -11,6 +11,7 @@ If you do not have that dependacy then simply make it as false and no need to wo
 _preSendJson_ configs. (This only reads if the _isPreRequest_ is true)
 And fill the request related info
 
+```json
 "preSendJson":{
     "jsonPre": <JSON Body>,
     "preRequestType":<POST or PUT>,
@@ -18,8 +19,9 @@ And fill the request related info
     "preRequestUrl": <Request Url>,
     "preHeaders": <Header array header name and value> 
   }
-  
+```  
 
+```json
  "preSendJson":{
     "jsonPre":["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
     "preRequestType":"POST",
@@ -27,10 +29,11 @@ And fill the request related info
     "preRequestUrl":"http://localhost:3030/api/test",
     "preHeaders":[ {"header": "Abc", "value": "test"}, {"header": "PQR", "value": "43534"}]
   }
-  
+```  
   
   Now you need to add data on your main request JSON
   
+  ```json
   Add the JSON
   "jsonMain": {"test":"value", "age":12, "address":"Sri Lanka"}
   "mainRequestType":<POST or PUT>,
@@ -38,6 +41,7 @@ And fill the request related info
   "mainRequestUrl": <Request Url>,
   "mainHeaders": <Header array header name and value>
   "setFromPreResponse": <If this request need to add data from pre-request mapping should mention in here> 
+  ```
   
   Example:
   [{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true}]
@@ -64,7 +68,7 @@ user need to enable the config _isIgnore_ as false (Then config will read else t
  "responsePayLoad": expected response payload if available
  "isStrictCompare": if need to compare payload as one to one mapping make this as true,
                     if the user need to verify given values in the payload then this should mark as false
-
+```json
 {
       "fields":[
         "age", "address"
@@ -75,7 +79,7 @@ user need to enable the config _isIgnore_ as false (Then config will read else t
       "responsePayLoad":"{\n    \"task\": \"Task 51\",\n}",
       "isStrictCompare":false
     },
-
+```
 
 Under modify payload has "ONLY_USE" option which can use to test mandatory (Required) fields.
 (JSON bulds using mentioned fields only)
