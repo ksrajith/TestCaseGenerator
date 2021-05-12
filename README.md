@@ -11,15 +11,14 @@ If you do not have that dependacy then simply make it as false and no need to wo
 _preSendJson_ configs. (This only reads if the _isPreRequest_ is true)
 And fill the request related info
 
-```json
-"preSendJson":{
-    "jsonPre": <JSON Body>,
-    "preRequestType":<POST or PUT>,
+ ```json
+"preSendJson":
+    "jsonPre": <Json Body>,
+    "preRequestType": <POST or PUT>,
     "preContentType": <Content type>,
     "preRequestUrl": <Request Url>,
     "preHeaders": <Header array header name and value> 
-  }
-```  
+``` 
 
 ```json
  "preSendJson":{
@@ -36,8 +35,8 @@ And fill the request related info
   ```json
   Add the JSON
   "jsonMain": {"test":"value", "age":12, "address":"Sri Lanka"}
-  "mainRequestType":<POST or PUT>,
-  "mainContentType":<Content type>,
+  "mainRequestType": <POST or PUT>,
+  "mainContentType": <Content type>,
   "mainRequestUrl": <Request Url>,
   "mainHeaders": <Header array header name and value>
   "setFromPreResponse": <If this request need to add data from pre-request mapping should mention in here> 
