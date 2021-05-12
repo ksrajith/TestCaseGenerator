@@ -42,30 +42,30 @@ And fill the request related info
   "setFromPreResponse": <If this request need to add data from pre-request mapping should mention in here> 
   ```
   
-  Example:
-  [{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true}]
-  pathOrName - request header name or json path
-  isFromPreHeader - Is mentioned pathOrName should take from pre-request Response header
-  updateKeyPath - main request header name or json path which value need to be update
+  Example:\
+  [{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true}]\
+  pathOrName - request header name or json path_
+  isFromPreHeader - Is mentioned pathOrName should take from pre-request Response header\
+  updateKeyPath - main request header name or json path which value need to be update\
   isToMainHeader - Is mentioned updateKeyPath is in header or JSON Body
   
   
-  "constructJsonForEachField": <If request need to send for eanch field mention in JSON body> 
-  if user need to build JSON variations with assigning null value to each field put parameter "NULL_CHECK"
-  if user need to build JSON variations with assigning empty ("") value to each field put parameter "EMPTY_CHECK"
+  "constructJsonForEachField": <If request need to send for eanch field mention in JSON body>\
+  if user need to build JSON variations with assigning null value to each field put parameter "NULL_CHECK"\
+  if user need to build JSON variations with assigning empty ("") value to each field put parameter "EMPTY_CHECK"\
   if user need to build JSON variations with removing each field put parameter "REMOVE_FIELD"
 
-If the user need to build the JSONs to all above combinations:
-"constructJsonForEachField": ["REMOVE_FIELD", "EMPTY_CHECK", "NULL_CHECK"],
+If the user need to build the JSONs to all above combinations:\
+"constructJsonForEachField": ["REMOVE_FIELD", "EMPTY_CHECK", "NULL_CHECK"]
 
-Also user can build JSONs only for configed fields under _modifyJson_
-Example:
-If the user need to send a JSON assigning NULL values to "age", "address"
-user need to enable the config _isIgnore_ as false (Then config will read else this is ignored)
- "modifyType": "NULL_CHECK" (Since ucer need to assigine NULL value)
- "statusCode": expected response code if available
- "responsePayLoad": expected response payload if available
- "isStrictCompare": if need to compare payload as one to one mapping make this as true,
+Also user can build JSONs only for configed fields under _modifyJson_\
+Example:\
+If the user need to send a JSON assigning NULL values to "age", "address"\
+user need to enable the config _isIgnore_ as false (Then config will read else this is ignored)\
+ "modifyType": "NULL_CHECK" (Since ucer need to assigine NULL value)\
+ "statusCode": expected response code if available\
+ "responsePayLoad": expected response payload if available\
+ "isStrictCompare": if need to compare payload as one to one mapping make this as true,\
                     if the user need to verify given values in the payload then this should mark as false
 ```json
 {
@@ -80,29 +80,29 @@ user need to enable the config _isIgnore_ as false (Then config will read else t
     },
 ```
 
-Under modify payload has "ONLY_USE" option which can use to test mandatory (Required) fields.
+Under modify payload has "ONLY_USE" option which can use to test mandatory (Required) fields.\
 (JSON bulds using mentioned fields only)
 
-User can add the testcases with length check parameters and value update paramenters.
+User can add the testcases with length check parameters and value update paramenters.\
 lengthCheck, valueUpdate
 
-For lengthCheck: generate values for below options
-numNChars: Numbers and Chars
-charOnly: chars only
+For lengthCheck: generate values for below options\
+numNChars: Numbers and Chars\
+charOnly: chars only\
 numOnly: numbers only
 
-To enable this config user need to make the _isIgnore_ as false
+To enable this config user need to make the _isIgnore_ as false\
 
-In valueupdate JSON path values will update with the given value
+In valueupdate JSON path values will update with the given value_
 
 **Run**
-After changes of the config file
-Goto (Runner.java) and Run the file
+After changes of the config file\
+Goto (Runner.java) and Run the file\
  src/main/java/com/api/base/Runner.java
  
  **Output**
- Results will generates as (output.csv) file under
- src/main/resources/
+ Results will generates as (output.csv) file under\
+ src/main/resources/\
 
 **Limitations**
 
