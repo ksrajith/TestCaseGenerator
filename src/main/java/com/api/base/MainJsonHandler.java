@@ -15,22 +15,12 @@ public class MainJsonHandler {
     private ConfigJson mainConf=new ConfigJson();
     public void mainJsonConstruct(ConfigJson obj, RestInvoke restInvoke) throws JSONException {
         TreeMap<String, RestInvoke> tmpMap = new TreeMap<>();
-        if(obj.isPreRequest() && obj.getJsonMain() != null && obj.getSetFromPreResponse().length != 0 && obj.getSetFromPreResponse()[0].getPathOrName() != null) {
+        if(obj.isPreRequest() && obj.getJsonMain() != null && obj.getFromPreResponse().length != 0 && obj.getFromPreResponse()[0].getPathOrName() != null) {
            tmpMap = updateJsonWithPreResponse(obj, restInvoke);
          } else {
             tmpMap.put(KeyMapper.PREINVOKE,restInvoke);
             mainConf=obj;
         }
-
-//        if(obj.getOnlyUsing() != null && obj.getOnlyUsing().length != 0 && obj.getOnlyUsing()[0].getFields().length != 0){
-//            useOnlyJsonFields(tmpMap);
-//        }
-        // JsonFlattener.flattenAsMap((new JSONObject((LinkedHashMap)obj.getJsonMain())).toString())
-
-
-//        if(obj.getNullCheck() != null && obj.getNullCheck().length != 0 && obj.getNullCheck()[0].getFields().length != 0){
-//            updateJson(tmpMap);
-//        }
 
         prepareJSONConstructList(tmpMap);
         jsonLengthModify(tmpMap);
@@ -42,6 +32,7 @@ public class MainJsonHandler {
         System.out.println(tmpMap.size());
     }
 
+    // Build JSONs as per the modifyJson configs
     public TreeMap<String, RestInvoke> prepareJSONConstructList(TreeMap<String, RestInvoke> tmpMap){
         ConfigJson cnfJson = mainConf;
         if(cnfJson.getModifyJson().length != 0){
@@ -72,7 +63,7 @@ public class MainJsonHandler {
                     }
                     RestInvoke restInvoke = new RestInvoke();
                     restInvoke.setExpectedCode(confJsn.getStatusCode());
-                    restInvoke.setExpectedResponse(confJsn.getResponsePayLoad().toString());
+                    restInvoke.setExpectedResponse(objectToJson(confJsn.getExpectedPayload()));
                     restInvoke.setRequestBody(json.toString());
                     restInvoke.setStrictCompare(confJsn.isStrictCompare());
                     restInvoke.setUrlInvoke(cnfJson.getMainRequestUrl());
@@ -91,6 +82,7 @@ public class MainJsonHandler {
         return tmpMap;
     }
 
+    // Add herders to the header map
     private Map<String, String> setMainHeader(Headers[]  headers){
         Map<String, String> headerMap = new LinkedHashMap<>();
         for (Headers header:headers ) {
@@ -99,6 +91,7 @@ public class MainJsonHandler {
         return headerMap;
     }
 
+    // build jsons with configed mandatory fields
     public Object onlyUsePayload(Object jsonPayload, String[] fields){
         ConfigJson cnfJson = mainConf;
         Map<String, Object> flattenJson = JsonFlattener.flattenAsMap(jsonPayload.toString());
@@ -169,7 +162,7 @@ public class MainJsonHandler {
             RestInvoke mainInvoke = new RestInvoke();
             Object json = new JSONObject(obj.getJsonMain().toString());
             mainInvoke.setRequestHeaderMap(setMainHeader(obj.getMainHeaders()));
-            for (PreResponseAtr pre: obj.getSetFromPreResponse()) {
+            for (PreResponseAtr pre: obj.getFromPreResponse()) {
                 if(pre.isFromPreHeader()){
                     String headerVal = restInvoke.getResponseHeaderMap().get(pre.getPathOrName());
                     if(pre.isToMainHeader()) {
@@ -208,6 +201,7 @@ public class MainJsonHandler {
             return restInvokeNConfigList;
     }
 
+    // get json value for given path
     public Object returnJsonValue(Object json, String jsnPth) {
         try{
             Map<String, Object> flattenJson = JsonFlattener.flattenAsMap(json.toString());
@@ -239,7 +233,7 @@ public class MainJsonHandler {
                 }
                 RestInvoke restInvoke = new RestInvoke();
                 restInvoke.setExpectedCode(lengthJsn.getStatusCode());
-                restInvoke.setExpectedResponse(lengthJsn.getResponsePayLoad().toString());
+                restInvoke.setExpectedResponse(objectToJson(lengthJsn.getExpectedPayload()));
                 if(tmpMap.get(KeyMapper.MAININVOKE) != null && (tmpMap.get(KeyMapper.MAININVOKE)).getRequestHeaderMap().size() > 0) {
                     restInvoke.setRequestHeaderMap((tmpMap.get(KeyMapper.MAININVOKE)).getRequestHeaderMap());
                 } else {
@@ -257,6 +251,7 @@ public class MainJsonHandler {
         return tmpMap;
     }
 
+    // Update the JSON as per the configed value
     public TreeMap<String, RestInvoke>  jsonValueModify(TreeMap<String, RestInvoke> tmpMap){
         ConfigJson cnfJson = mainConf;
         if(cnfJson.getLengthCheck().length > 0){
@@ -277,7 +272,7 @@ public class MainJsonHandler {
                     }
                     RestInvoke restInvoke = new RestInvoke();
                     restInvoke.setExpectedCode(updteAtr.getStatusCode());
-                    restInvoke.setExpectedResponse(updteAtr.getExpectedPayload());
+                    restInvoke.setExpectedResponse(objectToJson(updteAtr.getExpectedPayload()));
                     if(tmpMap.get(KeyMapper.MAININVOKE) != null && (tmpMap.get(KeyMapper.MAININVOKE)).getRequestHeaderMap().size() > 0) {
                         restInvoke.setRequestHeaderMap((tmpMap.get(KeyMapper.MAININVOKE)).getRequestHeaderMap());
                     } else {
@@ -295,6 +290,20 @@ public class MainJsonHandler {
         return tmpMap;
     }
 
+    private String objectToJson(Object obj){
+        try {
+            if (obj instanceof LinkedHashMap){
+               return (new JSONObject((LinkedHashMap)obj).toString());
+            } else if (obj instanceof ArrayList){
+                return (new JSONArray((ArrayList)obj).toString());
+            }
+            return obj.toString();
+        } catch (Exception ex){
+            return null;
+        }
+    }
+
+    // generate json for each field
     public TreeMap<String, RestInvoke> constructJsonForEachField(TreeMap<String, RestInvoke> tmpMap){
         ConfigJson cnfJson = mainConf;
         Object json = null;
@@ -343,6 +352,9 @@ public class MainJsonHandler {
         return tmpMap;
     }
 /*
+
+JsonFlattener.flattenAsMap((new JSONObject((LinkedHashMap)obj.getJsonMain())).toString())
+
     public Object returnJsonValues(LinkedHashMap jsonMap, String jsnPth){
         try{
             List<String> strList = new LinkedList<String>(Arrays.asList(jsnPth.split("\\.")));
@@ -394,6 +406,7 @@ public class MainJsonHandler {
     }
 */
 
+    // Value Update or attribute remove from json
     public JSONObject updateOrRemoveJsonProperty(Object js1, String keys, Object valueNew, ConfigData.JsonBuildType payloadEnum, String targetKey){
        try {
            List<String> keyMain = new LinkedList<String>(Arrays.asList(keys.split("\\.")));
@@ -444,6 +457,7 @@ public class MainJsonHandler {
         return (JSONObject) js1;
     }
 
+    // generate value for given type and limitation
     public Object attrValueGenerate (String type, int val){
         Object value = null;
         switch (type) {

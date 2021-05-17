@@ -16,7 +16,8 @@ public class ConfigJson {
     private String mainRequestUrl;
     private String[] constructJsonForEachField;
     private Headers[] mainHeaders;
-    private PreResponseAtr[] setFromPreResponse;
+    private DynamicData[] dynamicKeys;
+    private PreResponseAtr[] fromPreResponse;
     private JsonConstructs[] modifyJson;
     private JsonFieldLength[] lengthCheck;
     private UpdateFieldValue[] valueUpdate;

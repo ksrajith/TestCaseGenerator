@@ -30,18 +30,28 @@ public class Runner {
 //        GenerateResults generateResults = new GenerateResults();
 //        generateResults.writeToCSVFile(mapList, configData);
 //    }
-
+public static boolean isPreRequest ;
     public static void main(String[] args) throws JSONException {
         JsonReader jsonReader = new JsonReader();
         // configuration JSON file location
         String src = "src/main/java/com/api/con/configs.json";
         // Assign configuration JSON to ConfigJson Class
         ConfigJson obj= (ConfigJson) jsonReader.fileReader(src, ConfigJson.class.getName());
-        PreConditionRest preConditionRest = new PreConditionRest();
-        // invoke pre condition and assign data
-        RestInvoke restInvoke = preConditionRest.validatePreCondition(obj);
-        MainJsonHandler mainJsonHandler = new MainJsonHandler();
-        // Invoke main JSON data
-        mainJsonHandler.mainJsonConstruct(obj, restInvoke);
+        RequestManager.mainJsonConf = obj;
+          isPreRequest = obj.isPreRequest();
+            PreConditionRest preConditionRest = new PreConditionRest();
+            // invoke pre condition and assign data
+        //    RestInvoke restInvoke = preConditionRest.validatePreCondition(obj);
+            //MainJsonHandler mainJsonHandler = new MainJsonHandler();
+            // Invoke main JSON data
+           // mainJsonHandler.mainJsonConstruct(obj, restInvoke);
+        RequestManager requestManager = new RequestManager();
+        TreeMap<String, RestInvoke> map = requestManager.prepareModifyJsonConfList(obj);
+        map = requestManager.jsonLengthModify(map, obj);
+        map =requestManager.jsonValueModify(map, obj);
+        map = requestManager.constructJsonForEachField(map, obj);
+        System.out.println(map.size());
+        ValidateMainRequest validateMainRequest = new ValidateMainRequest();
+        validateMainRequest.iterateRequestMap(map);
     }
 }

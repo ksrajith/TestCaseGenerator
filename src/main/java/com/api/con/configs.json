@@ -67,8 +67,9 @@
   "mainContentType": "JSON",
   "mainRequestUrl":"http://localhost:3030/temptry/api/test",
   "mainHeaders":[ {"header": "Main", "value": "testMain"}, {"header": "MnPQR", "value": "Mn43534"}],
-  "setFromPreResponse":[{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true},{"pathOrName": "event.march.fstWeek","isFromPreHeader": false, "updateKeyPath": "cars.car2.import.qa", "isToMainHeader": false},{"pathOrName": "event.jan","isFromPreHeader": false, "updateKeyPath": "cars.car2.model", "isToMainHeader": false}],
+  "fromPreResponse":[{"pathOrName": "RESPONSEHED","isFromPreHeader": true, "updateKeyPath": "RESPONSEHEDTMP", "isToMainHeader": true},{"pathOrName": "event.march.fstWeek","isFromPreHeader": false, "updateKeyPath": "cars.car2.import.qa", "isToMainHeader": false},{"pathOrName": "event.jan","isFromPreHeader": false, "updateKeyPath": "cars.car2.model", "isToMainHeader": false}],
   "constructJsonForEachField": ["REMOVE_FIELD", "EMPTY_CHECK", "NULL_CHECK"],
+  "dynamicKeys": [{"path":"cars.car1", "type": "UUID", "isLength":"2",  "isAppend":true  }],
   "modifyJson":[
     {
       "fields":[
@@ -76,8 +77,8 @@
       ],
       "isIgnore": false,
       "modifyType": "NULL_CHECK",
-      "statusCode":400,
-      "responsePayLoad":"{\n    \"task\": \"Task 51\",\n    \"category\": \"R&D\",\n    \"status\": \"Completed\",\n    \"event\": {\n        \"jan\": \"personal\",\n        \"feb\": \"trip\",\n        \"march\": {\n            \"fstWeek\": \"sports\",\n            \"secWeek\": \"helper\"\n        }\n    },\n    \"createdDate\": \"2019-07-11T04:06:44.110Z\"\n}",
+      "statusCode":200,
+      "expectedPayload":{    "task": "Task 51",    "category": "R&D",    "status": "Completed",   "event": {        "jan": "personal",        "feb": "trip",        "march": {"secWeek": "helper"}    },    "createdDate": "2019-07-11T04:06:44.110Z"},
       "isStrictCompare":false
     },
     {
@@ -88,7 +89,7 @@
       "isIgnore": true,
       "modifyType": "NULL_CHECK",
       "statusCode":400,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -98,7 +99,7 @@
       "isIgnore": true,
       "modifyType": "ONLY_USE",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -108,7 +109,7 @@
       "isIgnore": false,
       "modifyType": "ONLY_USE",
       "statusCode":400,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -119,7 +120,7 @@
       "isIgnore": false,
       "modifyType": "ONLY_USE",
       "statusCode":400,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -129,7 +130,7 @@
       "isIgnore": false,
       "modifyType": "REMOVE_FIELD",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -139,7 +140,7 @@
       "isIgnore": false,
       "modifyType": "REMOVE_FIELD",
       "statusCode":400,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -150,7 +151,7 @@
       "isIgnore": false,
       "modifyType": "REMOVE_FIELD",
       "statusCode":200,
-      "responsePayLoad":"{\n    \"task\": \"Task 51\",\n    \"category\": \"R&D\",\n    \"status\": \"Completed\",\n    \"event\": {\n        \"jan\": \"personal\",\n        \"feb\": \"trip\",\n        \"march\": {\n            \"fstWeek\": \"sports\",\n            \"secWeek\": \"helper\"\n        }\n    },\n    \"createdDate\": \"2019-07-11T04:06:44.110Z\"\n}",
+      "expectedPayload":{    "task": "Task 51",    "category": "R&D",    "status": "Completed",   "event": {        "jan": "personal",        "feb": "trip",        "march": {            "fstWeek": "sports",            "secWeek": "helper"        }    },    "createdDate": "2019-07-11T04:06:44.110Z"},
       "isStrictCompare":true
     },
     {
@@ -160,7 +161,7 @@
       "isIgnore": false,
       "modifyType": "NULL_CHECK",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     }
   ],
@@ -171,7 +172,7 @@
       "length":12,
       "type":"numNChars",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -180,7 +181,7 @@
       "length":12,
       "type":"charOnly",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":null,
       "isStrictCompare":false
     },
     {
@@ -189,7 +190,7 @@
       "length":12,
       "type":"numOnly",
       "statusCode":200,
-      "responsePayLoad":"",
+      "expectedPayload":["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
       "isStrictCompare":false
     }
   ],
@@ -197,7 +198,7 @@
         {
           "isIgnore": false,
           "statusCode":200,
-          "expectedPayload":"",
+          "expectedPayload":null,
           "isStrictCompare":false,
           "fieldSet":[
             {
@@ -213,7 +214,7 @@
         {
           "isIgnore": false,
           "statusCode":200,
-          "expectedPayload":"",
+          "expectedPayload":null,
           "isStrictCompare":false,
           "fieldSet":[
             {

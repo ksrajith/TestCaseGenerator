@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class UpdateFieldValue {
     private int statusCode;
-    private String expectedPayload;
+    private Object expectedPayload;
     @JsonProperty(value="isStrictCompare")
     private boolean isStrictCompare;
     private String type;

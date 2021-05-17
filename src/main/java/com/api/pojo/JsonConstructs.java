@@ -9,7 +9,7 @@ import lombok.Data;
 public class JsonConstructs {
     private String[] fields;
     private int statusCode;
-    private Object responsePayLoad;
+    private Object expectedPayload;
     @JsonProperty(value="isStrictCompare")
     private boolean isStrictCompare;
     private DataMapper modifyType;

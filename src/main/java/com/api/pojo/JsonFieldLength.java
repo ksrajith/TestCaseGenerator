@@ -11,7 +11,7 @@ public class JsonFieldLength {
     private int length;
     private String type;
     private int statusCode;
-    private Object responsePayLoad;
+    private Object expectedPayload;
     @JsonProperty(value="isStrictCompare")
     private boolean isStrictCompare;
     @JsonProperty(value="isIgnore")
