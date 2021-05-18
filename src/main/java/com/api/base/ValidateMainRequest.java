@@ -3,6 +3,8 @@ package com.api.base;
 import com.api.pojo.RestInvoke;
 import io.restassured.internal.common.assertion.Assertion;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -21,7 +23,7 @@ public class ValidateMainRequest {
             try {
                 entry.getValue().setCode(response.statusCode());
                 entry.getValue().setResponseBody(response.getBody().asString());
-                if(entry.getValue().getResponseBody() != null && entry.getValue().getResponseBody() != "") {
+                if(entry.getValue().getResponseBody() != null && entry.getValue().getResponseBody() != "" && !StringUtils.isEmpty(entry.getValue().getExpectedResponse())) {
                     entry.getValue().setJsonCompare(compareJsons(response.getBody().asString(), entry.getValue().getExpectedResponse(), entry.getValue().isStrictCompare()));
                 }
                 if(entry.getValue().getExpectedCode() > 0){
@@ -38,11 +40,17 @@ public class ValidateMainRequest {
 
     private boolean compareJsons(String actJson, String exptJson, boolean isStrictCompare){
         try {
+            String jsonAct;
+            try {
+                jsonAct = (new JSONObject(actJson)).toString();
+            }catch (Exception ex){
+                jsonAct = (new JSONArray(actJson)).toString();
+            }
                 if (isStrictCompare) {
-                    JSONAssert.assertEquals(actJson, exptJson, JSONCompareMode.STRICT);
+                    JSONAssert.assertEquals(jsonAct, exptJson, JSONCompareMode.STRICT);
                     return true;
                 } else {
-                    JSONAssert.assertEquals(actJson, exptJson, JSONCompareMode.LENIENT);
+                    JSONAssert.assertEquals(jsonAct, exptJson, JSONCompareMode.LENIENT);
                     return true;
                 }
         } catch (AssertionError e) {

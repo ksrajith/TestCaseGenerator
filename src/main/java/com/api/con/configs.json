@@ -78,7 +78,7 @@
       "isIgnore": false,
       "modifyType": "NULL_CHECK",
       "statusCode":200,
-      "expectedPayload":{    "task": "Task 51",    "category": "R&D",    "status": "Completed",   "event": {        "jan": "personal",        "feb": "trip",        "march": {"secWeek": "helper"}    },    "createdDate": "2019-07-11T04:06:44.110Z"},
+      "expectedPayload":{    "task": "Task 51",    "category": "R&D",    "status": "Completed",   "event": {        "jan": "personal",        "feb": "trip",        "march": {"fstWeek": "sports", "secWeek": "helper"}    },    "createdDate": "2019-07-11T04:06:44.110Z"},
       "isStrictCompare":false
     },
     {

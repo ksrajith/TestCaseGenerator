@@ -42,11 +42,7 @@ public class RequestManager {
                     if(Runner.isPreRequest){
                         preReqest= requestUpdater(confObj);
                     }
-                    try {
-                        json = new JSONObject((RequestManager.mainJsonConf.getJsonMain()).toString());
-                    } catch (Exception Ex){
-                        json = new JSONArray((ArrayList)RequestManager.mainJsonConf.getJsonMain());
-                    }
+                    json=assignJson(confObj);
                     if(confObj.getDynamicKeys().length > 0){
                         json= setValuesToDynamicKeys(confObj);
                     }
@@ -88,20 +84,15 @@ public class RequestManager {
        JSON create as per the length requests
     */
     public TreeMap<String, RestInvoke>  jsonLengthModify(TreeMap<String, RestInvoke> tmpMap, ConfigJson confObj){
-        ConfigJson cnfJson = confObj;
         JsonUtils jsonUtils = new JsonUtils();
-        if(cnfJson.getLengthCheck().length > 0){
-            for (JsonFieldLength lengthJsn: cnfJson.getLengthCheck()) {
+        if(confObj.getLengthCheck().length > 0){
+            for (JsonFieldLength lengthJsn: confObj.getLengthCheck()) {
                 Object json = null;
                 RestInvoke preReqest=null;
                 if(Runner.isPreRequest){
                     preReqest= requestUpdater(confObj);
                 }
-                try {
-                    json = new JSONObject(cnfJson.getJsonMain().toString());
-                } catch (Exception ex){
-                    json = new JSONArray((ArrayList)cnfJson.getJsonMain());
-                }
+                json=assignJson(confObj);
                 if(confObj.getDynamicKeys().length > 0){
                     json= setValuesToDynamicKeys(confObj);
                 }
@@ -116,9 +107,9 @@ public class RequestManager {
                 restInvoke.setExpectedResponse(objectToJson(lengthJsn.getExpectedPayload()));
                 restInvoke.setRequestHeaderMap(setMainHeader(preReqest !=null ? preReqest.getResponseHeaderMap() :null, confObj.getMainHeaders()));
                 restInvoke.setStrictCompare(lengthJsn.isStrictCompare());
-                restInvoke.setUrlInvoke(cnfJson.getMainRequestUrl());
-                restInvoke.setType(cnfJson.getMainRequestType());
-                restInvoke.setContentType(cnfJson.getMainContentType());
+                restInvoke.setUrlInvoke(confObj.getMainRequestUrl());
+                restInvoke.setType(confObj.getMainRequestType());
+                restInvoke.setContentType(confObj.getMainContentType());
                 restInvoke.setRequestBody(json.toString());
                 tmpMap.put("LENGTH_CHECK"+"__"+lengthJsn.getKey(),restInvoke);
 
@@ -129,20 +120,15 @@ public class RequestManager {
 
     // Update the JSON as per the configed value
     public TreeMap<String, RestInvoke>  jsonValueModify(TreeMap<String, RestInvoke> tmpMap, ConfigJson confObj){
-        ConfigJson cnfJson = confObj;
         JsonUtils jsonUtils = new JsonUtils();
-        if(cnfJson.getLengthCheck().length > 0){
-            for (UpdateFieldValue updteAtr: cnfJson.getValueUpdate()) {
+        if(confObj.getLengthCheck().length > 0){
+            for (UpdateFieldValue updteAtr: confObj.getValueUpdate()) {
                 Object json = null;
                 RestInvoke preReqest=null;
                 if(Runner.isPreRequest){
                     preReqest= requestUpdater(confObj);
                 }
-                try {
-                    json = new JSONObject(cnfJson.getJsonMain().toString());
-                } catch (Exception ex){
-                    json = new JSONArray((ArrayList)cnfJson.getJsonMain());
-                }
+                json=assignJson(confObj);
                 if(confObj.getDynamicKeys().length > 0){
                     json= setValuesToDynamicKeys(confObj);
                 }
@@ -159,9 +145,9 @@ public class RequestManager {
                     restInvoke.setExpectedResponse(objectToJson(updteAtr.getExpectedPayload()));
                     restInvoke.setRequestHeaderMap(setMainHeader(preReqest !=null ? preReqest.getResponseHeaderMap() :null, confObj.getMainHeaders()));
                     restInvoke.setStrictCompare(updteAtr.isStrictCompare());
-                    restInvoke.setUrlInvoke(cnfJson.getMainRequestUrl());
-                    restInvoke.setType(cnfJson.getMainRequestType());
-                    restInvoke.setContentType(cnfJson.getMainContentType());
+                    restInvoke.setUrlInvoke(confObj.getMainRequestUrl());
+                    restInvoke.setType(confObj.getMainRequestType());
+                    restInvoke.setContentType(confObj.getMainContentType());
                     restInvoke.setRequestBody(json.toString());
                     tmpMap.put("VALUE_UPDATE"+str,restInvoke);
                 }
@@ -172,16 +158,15 @@ public class RequestManager {
 
     // generate json for each field
     public TreeMap<String, RestInvoke> constructJsonForEachField(TreeMap<String, RestInvoke> tmpMap, ConfigJson confObj){
-        ConfigJson cnfJson = confObj;
         JsonUtils jsonUtils = new JsonUtils();
 
-        if(cnfJson.getConstructJsonForEachField().length != 0){
-            for (String str:cnfJson.getConstructJsonForEachField()) {
+        if(confObj.getConstructJsonForEachField().length != 0){
+            for (String str: confObj.getConstructJsonForEachField()) {
                 Map<String, Object> flattenJson =null;
                 try {
-                    flattenJson = JsonFlattener.flattenAsMap((cnfJson.getJsonMain()).toString());
+                    flattenJson = JsonFlattener.flattenAsMap((confObj.getJsonMain()).toString());
                 } catch (RuntimeException re){
-                    flattenJson = JsonFlattener.flattenAsMap((new JSONObject((LinkedHashMap)cnfJson.getJsonMain())).toString());
+                    flattenJson = JsonFlattener.flattenAsMap((new JSONObject((LinkedHashMap) confObj.getJsonMain())).toString());
                 }
 
                 for (Map.Entry<String, Object> entry: flattenJson.entrySet()) {
@@ -191,11 +176,7 @@ public class RequestManager {
                         preReqest= requestUpdater(confObj);
                     }
                     String[] tmpArray = entry.getKey().split("\\.");
-                    try {
-                        json = new JSONObject(cnfJson.getJsonMain().toString());
-                    } catch (Exception ex){
-                        json = new JSONArray((ArrayList)cnfJson.getJsonMain());
-                    }
+                    json=assignJson(confObj);
                     if(confObj.getDynamicKeys().length > 0){
                         json= setValuesToDynamicKeys(confObj);
                     }
@@ -212,15 +193,26 @@ public class RequestManager {
                     }
                     RestInvoke restInvoke = new RestInvoke();
                     restInvoke.setRequestHeaderMap(setMainHeader(preReqest !=null ? preReqest.getResponseHeaderMap() :null, confObj.getMainHeaders()));
-                    restInvoke.setUrlInvoke(cnfJson.getMainRequestUrl());
-                    restInvoke.setType(cnfJson.getMainRequestType());
-                    restInvoke.setContentType(cnfJson.getMainContentType());
+                    restInvoke.setUrlInvoke(confObj.getMainRequestUrl());
+                    restInvoke.setType(confObj.getMainRequestType());
+                    restInvoke.setContentType(confObj.getMainContentType());
                     restInvoke.setRequestBody(json.toString());
                     tmpMap.put(str +"__"+entry.getKey(), restInvoke);
                 }
             }
         }
         return tmpMap;
+    }
+
+    private Object assignJson(ConfigJson cnfJson){
+        Object json;
+        try {
+            json = new JSONObject(cnfJson.getJsonMain().toString());
+        } catch (Exception ex){
+            json = new JSONArray((ArrayList)cnfJson.getJsonMain());
+        }
+
+        return json;
     }
 
     private Map<String, String> setMainHeader(Map<String, String> responseHeaders, Headers[]  headers){
