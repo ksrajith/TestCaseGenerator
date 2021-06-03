@@ -91,9 +91,9 @@ numNChars: Numbers and Chars\
 charOnly: chars only\
 numOnly: numbers only
 
-To enable this config user need to make the _isIgnore_ as false\
+To enable this config user need to make the _isIgnore_ as false
 
-In valueupdate JSON path values will update with the given value_
+In valueupdate JSON path values will update with the given value
 
 **Run**
 After changes of the config file\
@@ -102,7 +102,7 @@ Goto (Runner.java) and Run the file\
  
  **Output**
  Results will generates as (output.csv) file under\
- src/main/resources/\
+ src/main/resources/
 
 **Limitations**
 
